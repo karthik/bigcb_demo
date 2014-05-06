@@ -104,7 +104,7 @@
 	<br><br><br>
 	<hgroup>
 	<img src="images/ropensci.png">
-	<center><h3><span style="color:#34495E; font-size:70px">Building ecoinformatics with BigCB</span><i class="ss-globe"></i></h3><br><br>
+	<center><h3><span style="color:#34495E; font-size:70px">Building ecoinformatics at BigCB</span><i class="ss-globe"></i></h3><br><br>
 	<h4> <a href="https://twitter.com/_inundata">@_inundata</a> &nbsp;<br>
 	karthik.github.io/bigcb_demo	
 	</h4>
@@ -165,6 +165,7 @@
 <span class="hl std">by_species</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">lapply</span><span class="hl std">(who,</span> <span class="hl kwa">function</span><span class="hl std">(</span><span class="hl kwc">x</span><span class="hl std">)</span> <span class="hl kwd">of_landings</span><span class="hl std">(</span><span class="hl kwc">species</span> <span class="hl std">= x))</span>
 <span class="hl kwd">names</span><span class="hl std">(by_species)</span> <span class="hl kwb">&lt;-</span> <span class="hl std">who</span>
 <span class="hl std">dat</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">melt</span><span class="hl std">(by_species,</span> <span class="hl kwc">id</span> <span class="hl std">=</span> <span class="hl kwd">c</span><span class="hl std">(</span><span class="hl str">&quot;catch&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;year&quot;</span><span class="hl std">))[,</span> <span class="hl opt">-</span><span class="hl num">5</span><span class="hl std">]</span>
+<span class="hl kwd">write.csv</span><span class="hl std">(dat,</span> <span class="hl kwc">file</span> <span class="hl std">=</span> <span class="hl str">&quot;dat.csv&quot;</span><span class="hl std">)</span>
 <span class="hl kwd">names</span><span class="hl std">(dat)</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">c</span><span class="hl std">(</span><span class="hl str">&quot;catch&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;year&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;type&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;a3_code&quot;</span><span class="hl std">)</span>
 <span class="hl com"># plot the data</span>
 <span class="hl kwd">ggplot</span><span class="hl std">(dat,</span> <span class="hl kwd">aes</span><span class="hl std">(year, catch))</span> <span class="hl opt">+</span> <span class="hl kwd">geom_line</span><span class="hl std">()</span> <span class="hl opt">+</span> <span class="hl kwd">facet_wrap</span><span class="hl std">(</span><span class="hl opt">~</span><span class="hl std">a3_code,</span> <span class="hl kwc">scales</span> <span class="hl std">=</span> <span class="hl str">&quot;free_y&quot;</span><span class="hl std">)</span>
@@ -278,12 +279,11 @@
 	<br><br>
 	<h2>Sharing data - <code>(figshare)</code></h2>
 	<div>
-	<h3 class="figshare">Using fig<b>share</b>'s <a href="http://api.figshare.com/docs/">API</a> it is now possible to share figures, data and any other object generated in <code>R</code> directly to any figshare account.</h3><br>
+	<h3 class="figshare">Using fig<b>share</b>'s <a href="http://api.figshare.com/docs/">API</a> it is possible to share figures, data and any other object generated in <code>R</code> and obtain a data citation.</h3><br>
 <div class="chunk" id="figshare"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl kwd">library</span><span class="hl std">(rfigshare)</span>
-<span class="hl kwd">fs_create</span><span class="hl std">(</span><span class="hl str">&quot;Fisheries dataset&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;A dataset containing catch for 4 important commerical fish species&quot;</span><span class="hl std">,</span>
+<span class="hl std">id</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">fs_create</span><span class="hl std">(</span><span class="hl str">&quot;Fisheries dataset&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;A dataset containing catch for 4 important commerical fish species&quot;</span><span class="hl std">,</span>
     <span class="hl str">&quot;dataset&quot;</span><span class="hl std">)</span>
-</pre></div>
-<div class="output"><pre class="knitr r">## [1] 1016831
+<span class="hl kwd">fs_upload</span><span class="hl std">(id,</span> <span class="hl str">&quot;dat.csv&quot;</span><span class="hl std">)</span>
 </pre></div>
 </div></div>
 
@@ -323,7 +323,7 @@
 </section>
 
 <section class="slide" id="a_use_case2">
-<br><br>	
+<h2>Download occurrence records from various sources</h2>		
 <div class="chunk" id="wbc3"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl std">splist</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">c</span><span class="hl std">(</span><span class="hl str">&quot;Acer saccharum&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;Abies balsamea&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;Arbutus xalapensis&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;Betula alleghaniensis&quot;</span><span class="hl std">,</span>
     <span class="hl str">&quot;Chilopsis linearis&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;Conocarpus erectus&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;Populus tremuloides&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;Larix laricina&quot;</span><span class="hl std">)</span>
 <span class="hl com">## get data from bison and gbif</span>

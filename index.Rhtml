@@ -106,6 +106,7 @@ who <- c("TUX", "COD", "VET", "NPA")
 by_species <- lapply(who, function(x) of_landings(species = x))
 names(by_species) <- who
 dat <- melt(by_species, id = c("catch", "year"))[, -5]
+write.csv(dat, file = "dat.csv")
 names(dat) <- c("catch", "year", "type", "a3_code")
 # plot the data
 ggplot(dat, aes(year, catch)) + geom_line() + facet_wrap(~a3_code, scales = "free_y")
@@ -177,10 +178,11 @@ end.rcode-->
 	<br><br>
 	<h2>Sharing data - <code>(figshare)</code></h2>
 	<div>
-	<h3 class="figshare">Using fig<b>share</b>'s <a href="http://api.figshare.com/docs/">API</a> it is now possible to share figures, data and any other object generated in <code>R</code> directly to any figshare account.</h3><br>
-<!--begin.rcode figshare,  eval = TRUE, message = FALSE, fig.align = 'center', cache = TRUE
+	<h3 class="figshare">Using fig<b>share</b>'s <a href="http://api.figshare.com/docs/">API</a> it is possible to share figures, data and any other object generated in <code>R</code> and obtain a data citation.</h3><br>
+<!--begin.rcode figshare,  eval = FALSE, message = FALSE, fig.align = 'center', cache = TRUE
 library(rfigshare)
-fs_create("Fisheries dataset", "A dataset containing catch for 4 important commerical fish species", "dataset")
+id <- fs_create("Fisheries dataset", "A dataset containing catch for 4 important commerical fish species", "dataset")
+fs_upload(id, "dat.csv")
 end.rcode-->
 </div>
 </section>
